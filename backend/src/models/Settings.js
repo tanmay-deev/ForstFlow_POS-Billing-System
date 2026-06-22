@@ -20,6 +20,12 @@ const settingsSchema = new mongoose.Schema(
     contactNumber: {
       type: String,
     },
+    email: {
+      type: String,
+    },
+    gstNumber: {
+      type: String,
+    },
     address: {
       type: String,
     },

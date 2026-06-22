@@ -51,9 +51,11 @@ const Products = () => {
 
   const columns = [
     { header: 'Image', accessor: 'image', render: (row) => (
-      row.image ? <img src={row.image} className="w-12 h-12 rounded object-cover" /> : <div className="w-12 h-12 rounded bg-vanilla flex items-center justify-center text-chocolate font-bold">{row.name.charAt(0)}</div>
+      <div className="w-12 h-12 rounded bg-vanilla overflow-hidden flex items-center justify-center">
+        {row.image ? <img src={row.image} className="w-full h-full object-cover mix-blend-multiply" /> : <span className="text-chocolate font-bold">{row.name.charAt(0)}</span>}
+      </div>
     )},
-    { header: 'Name', accessor: 'name', render: (row) => <span className="font-semibold text-chocolate">{row.name}</span> },
+    { header: 'Name', accessor: 'name', render: (row) => <span className="font-semibold text-chocolate dark:text-crema">{row.name}</span> },
     { header: 'Category', accessor: 'categoryId', render: (row) => row.categoryId?.name || 'Uncategorized' },
     { header: 'Price', accessor: 'price', render: (row) => `₹${row.price.toFixed(2)}` },
     { header: 'Stock', accessor: 'stockQuantity' },
@@ -69,7 +71,7 @@ const Products = () => {
             setEditingProduct(row);
             setProductModalOpen(true);
           }}
-          className="text-caramel hover:text-chocolate p-1 transition-colors"
+          className="text-caramel hover:text-chocolate dark:text-crema p-1 transition-colors"
           title="Edit Product"
         >
           <Edit size={18} />
@@ -91,8 +93,8 @@ const Products = () => {
     <div className="space-y-section animate-fade-in">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-heading font-bold text-chocolate">Product Management</h2>
-          <p className="text-slateGray">Manage your parlour's offerings.</p>
+          <h2 className="text-2xl font-heading font-bold text-chocolate dark:text-crema">Product Management</h2>
+          <p className="text-slateGray dark:text-latte">Manage your parlour's offerings.</p>
         </div>
         <div className="flex flex-wrap gap-3 w-full sm:w-auto">
           <Button variant="outline" className="flex-1 sm:flex-none flex justify-center items-center gap-2" onClick={() => setCategoryModalOpen(true)}>
@@ -115,7 +117,7 @@ const Products = () => {
             placeholder="Search products..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-caramel text-sm"
+            className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-cacao rounded-md focus:outline-none focus:ring-2 focus:ring-caramel text-sm"
           />
         </div>
       </div>

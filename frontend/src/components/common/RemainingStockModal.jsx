@@ -43,10 +43,10 @@ const RemainingStockModal = ({ isOpen, onClose }) => {
           {row.image ? (
             <img src={row.image} alt={row.name} className="w-full h-full object-cover mix-blend-multiply" />
           ) : (
-            <Package size={16} className="text-chocolate/50" />
+            <Package size={16} className="text-chocolate" />
           )}
         </div>
-        <span className="font-semibold text-chocolate">{row.name}</span>
+        <span className="font-semibold text-chocolate dark:text-crema">{row.name}</span>
       </div>
     )},
     { header: 'SKU', accessor: 'sku', render: (row) => row.sku || '-' },
@@ -68,22 +68,22 @@ const RemainingStockModal = ({ isOpen, onClose }) => {
             placeholder="Search by product name or SKU..." 
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-caramel"
+            className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-cacao rounded-md focus:outline-none focus:ring-2 focus:ring-caramel"
           />
         </div>
 
         {/* Table */}
-        <div className="border border-gray-100 rounded-lg overflow-hidden bg-white">
+        <div className="border border-gray-100 dark:border-cacao rounded-lg overflow-hidden bg-white dark:bg-mocha">
           <Table columns={columns} data={filteredProducts} keyField="_id" itemsPerPage={5} />
           
           {filteredProducts.length === 0 && !loading && (
-             <div className="p-8 text-center text-slateGray flex flex-col items-center justify-center">
+             <div className="p-8 text-center text-slateGray dark:text-latte flex flex-col items-center justify-center">
                <Package size={32} className="opacity-30 mb-2"/>
                No products found.
              </div>
           )}
           {loading && (
-             <div className="p-8 text-center text-slateGray">Loading products...</div>
+             <div className="p-8 text-center text-slateGray dark:text-latte">Loading products...</div>
           )}
         </div>
       </div>

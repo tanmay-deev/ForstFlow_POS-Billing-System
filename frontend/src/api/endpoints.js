@@ -25,6 +25,7 @@ export const ENDPOINTS = {
   NOTIFICATIONS: {
     GET: '/notifications',
     READ_ALL: '/notifications/read-all',
+    CLEAR_ALL: '/notifications/clear-all',
   },
   REPORTS: {
     SALES: '/reports/daily-sales', // now accepts start and end date

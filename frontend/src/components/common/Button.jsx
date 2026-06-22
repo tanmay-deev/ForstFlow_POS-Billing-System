@@ -5,10 +5,10 @@ const Button = ({ children, variant = 'primary', size = 'default', className = '
   
   const variants = {
     primary: 'bg-caramel text-white hover:bg-caramel/90',
-    secondary: 'bg-white border border-chocolate text-chocolate hover:bg-vanilla',
+    secondary: 'bg-white dark:bg-mocha border border-chocolate dark:border-cacao text-chocolate dark:text-crema hover:bg-vanilla dark:hover:bg-espresso',
     danger: 'bg-softRed text-white hover:bg-softRed/90',
-    outline: 'border border-gray-300 text-slateGray hover:bg-gray-50',
-    ghost: 'text-slateGray hover:bg-vanilla hover:text-chocolate'
+    outline: 'border border-gray-300 dark:border-cacao text-slateGray dark:text-latte hover:bg-gray-50 dark:hover:bg-[#2A1F1D]',
+    ghost: 'text-slateGray dark:text-latte hover:bg-vanilla dark:hover:bg-espresso hover:text-chocolate dark:hover:text-crema'
   };
 
   const sizes = {

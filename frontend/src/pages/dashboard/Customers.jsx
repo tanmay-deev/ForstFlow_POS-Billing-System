@@ -43,7 +43,7 @@ const Customers = () => {
   };
 
   const columns = [
-    { header: 'Name', accessor: 'name', render: (row) => <span className="font-semibold text-chocolate">{row.fullName || row.name}</span> },
+    { header: 'Name', accessor: 'name', render: (row) => <span className="font-semibold text-chocolate dark:text-crema">{row.fullName || row.name}</span> },
     { header: 'Email', accessor: 'email' },
     { header: 'Phone', accessor: 'phone' },
     { header: 'Loyalty Points', accessor: 'loyaltyPoints', render: (row) => (
@@ -59,7 +59,7 @@ const Customers = () => {
             setEditingCustomer(row);
             setIsModalOpen(true);
           }}
-          className="text-caramel hover:text-chocolate p-1 transition-colors"
+          className="text-caramel hover:text-chocolate dark:text-crema p-1 transition-colors"
           title="Edit Customer"
         >
           <Edit size={18} />
@@ -85,8 +85,8 @@ const Customers = () => {
     <div className="space-y-section animate-fade-in">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-heading font-bold text-chocolate">Customer Directory</h2>
-          <p className="text-slateGray">Manage loyalty programs and customer records.</p>
+          <h2 className="text-2xl font-heading font-bold text-chocolate dark:text-crema">Customer Directory</h2>
+          <p className="text-slateGray dark:text-latte">Manage loyalty programs and customer records.</p>
         </div>
         <div className="flex flex-wrap gap-3 items-center w-full sm:w-auto">
           <div className="relative w-full sm:w-64">
@@ -96,7 +96,7 @@ const Customers = () => {
               placeholder="Search customers..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-caramel text-sm"
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-cacao rounded-md focus:outline-none focus:ring-2 focus:ring-caramel text-sm"
             />
           </div>
           <Button className="flex-1 sm:flex-none flex justify-center items-center gap-2 shrink-0" onClick={() => {

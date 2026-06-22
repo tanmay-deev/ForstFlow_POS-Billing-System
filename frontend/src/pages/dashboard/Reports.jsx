@@ -95,15 +95,15 @@ const Reports = () => {
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setActiveTab(null)}
-              className="p-2 hover:bg-vanilla text-slateGray rounded-full transition-colors shrink-0"
+              className="p-2 hover:bg-vanilla dark:bg-espresso text-slateGray dark:text-latte rounded-full transition-colors shrink-0"
             >
               <ArrowLeft size={24} />
             </button>
             <div>
-              <h2 className="text-2xl font-heading font-bold text-chocolate capitalize">
+              <h2 className="text-2xl font-heading font-bold text-chocolate dark:text-crema capitalize">
                 {activeTab} Report
               </h2>
-              <p className="text-slateGray">Detailed analysis and export options.</p>
+              <p className="text-slateGray dark:text-latte">Detailed analysis and export options.</p>
             </div>
           </div>
           <Button variant="primary" icon={Download} onClick={handleExport} disabled={!data.length || loading} className="w-full sm:w-auto flex justify-center">
@@ -114,7 +114,7 @@ const Reports = () => {
         {activeTab === 'sales' && (
           <Card className="flex flex-col sm:flex-row gap-4 items-end p-default bg-vanilla/50">
             <div className="flex-1 w-full">
-              <label className="block text-sm font-medium text-slateGray mb-1">Start Date</label>
+              <label className="block text-sm font-medium text-slateGray dark:text-latte mb-1">Start Date</label>
               <Input 
                 type="date" 
                 icon={Calendar} 
@@ -123,7 +123,7 @@ const Reports = () => {
               />
             </div>
             <div className="flex-1 w-full">
-              <label className="block text-sm font-medium text-slateGray mb-1">End Date</label>
+              <label className="block text-sm font-medium text-slateGray dark:text-latte mb-1">End Date</label>
               <Input 
                 type="date" 
                 icon={Calendar} 
@@ -141,14 +141,14 @@ const Reports = () => {
           {loading ? (
             <div className="flex justify-center p-12"><Loader /></div>
           ) : data.length === 0 ? (
-            <div className="p-12 text-center text-slateGray">No data found for this period.</div>
+            <div className="p-12 text-center text-slateGray dark:text-latte">No data found for this period.</div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-vanilla border-b border-gray-100">
+                  <tr className="bg-vanilla dark:bg-espresso border-b border-gray-100 dark:border-cacao">
                     {Object.keys(data[0]).map(header => (
-                      <th key={header} className="p-4 text-sm font-semibold text-chocolate whitespace-nowrap">
+                      <th key={header} className="p-4 text-sm font-semibold text-chocolate dark:text-crema whitespace-nowrap">
                         {header}
                       </th>
                     ))}
@@ -156,9 +156,9 @@ const Reports = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-50">
                   {data.map((row, idx) => (
-                    <tr key={idx} className="hover:bg-gray-50 transition-colors">
+                    <tr key={idx} className="hover:bg-gray-50 dark:bg-[#2A1F1D] transition-colors">
                       {Object.values(row).map((val, cellIdx) => (
-                        <td key={cellIdx} className="p-4 text-sm text-slateGray whitespace-nowrap max-w-[200px] truncate">
+                        <td key={cellIdx} className="p-4 text-sm text-slateGray dark:text-latte whitespace-nowrap max-w-[200px] truncate">
                           {val}
                         </td>
                       ))}
@@ -176,8 +176,8 @@ const Reports = () => {
   return (
     <div className="space-y-section animate-fade-in">
       <div>
-        <h2 className="text-2xl font-heading font-bold text-chocolate">Advanced Analytics</h2>
-        <p className="text-slateGray">Generate detailed reports for your business.</p>
+        <h2 className="text-2xl font-heading font-bold text-chocolate dark:text-crema">Advanced Analytics</h2>
+        <p className="text-slateGray dark:text-latte">Generate detailed reports for your business.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-section">
@@ -185,11 +185,11 @@ const Reports = () => {
           onClick={() => setActiveTab('sales')}
           className="flex flex-col items-center justify-center text-center p-12 hover:shadow-medium transition-all hover:-translate-y-1 cursor-pointer border-2 border-transparent hover:border-caramel"
         >
-          <div className="w-16 h-16 bg-vanilla rounded-full flex items-center justify-center text-caramel mb-4">
+          <div className="w-16 h-16 bg-vanilla dark:bg-espresso rounded-full flex items-center justify-center text-caramel mb-4">
             <FileBarChart size={32} />
           </div>
-          <h3 className="text-xl font-bold text-chocolate">Sales Report</h3>
-          <p className="text-slateGray mt-2">Export detailed daily, weekly, or monthly revenue reports to CSV.</p>
+          <h3 className="text-xl font-bold text-chocolate dark:text-crema">Sales Report</h3>
+          <p className="text-slateGray dark:text-latte mt-2">Export detailed daily, weekly, or monthly revenue reports to CSV.</p>
         </Card>
         
         <Card 
@@ -199,8 +199,8 @@ const Reports = () => {
           <div className="w-16 h-16 bg-strawberry/10 rounded-full flex items-center justify-center text-strawberry mb-4">
             <FileBarChart size={32} />
           </div>
-          <h3 className="text-xl font-bold text-chocolate">Inventory Report</h3>
-          <p className="text-slateGray mt-2">Analyze stock movement, waste, and supply chain efficiency.</p>
+          <h3 className="text-xl font-bold text-chocolate dark:text-crema">Inventory Report</h3>
+          <p className="text-slateGray dark:text-latte mt-2">Analyze stock movement, waste, and supply chain efficiency.</p>
         </Card>
       </div>
     </div>

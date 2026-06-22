@@ -64,3 +64,11 @@ export const markAllAsRead = asyncHandler(async (req, res) => {
     message: 'All notifications marked as read',
   });
 });
+
+export const clearAllNotifications = asyncHandler(async (req, res) => {
+  await Notification.deleteMany({});
+  res.json({
+    success: true,
+    message: 'All notifications cleared',
+  });
+});

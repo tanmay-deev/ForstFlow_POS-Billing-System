@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth.js';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, IceCream } from 'lucide-react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -15,44 +15,72 @@ const Login = () => {
     e.preventDefault();
     try {
       await login(email, password);
-      toast.success('Logged in successfully');
       navigate('/dashboard');
+      toast.success('Welcome back!');
     } catch (error) {
-      toast.error(error.response?.data?.errors?.[0] || 'Login failed');
+      toast.error('Invalid credentials');
     }
   };
 
   return (
-    <div className="card w-full shadow-medium">
-      <div className="text-center mb-section">
-        <h2 className="text-caramel">FrostFlow</h2>
-        <p>Sign in to your account</p>
-      </div>
-      <form onSubmit={handleSubmit} className="space-y-default">
-        <div>
-          <label className="label">Email</label>
-          <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="input-field" required />
+    <div className="w-full flex flex-col justify-center animate-fade-in">
+      <div className="mb-10 flex items-center gap-3">
+        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-caramel to-chocolate flex items-center justify-center text-white shadow-soft">
+          <IceCream size={26} />
         </div>
+        <h2 className="text-3xl font-heading font-bold text-chocolate dark:text-crema tracking-tight">FrostFlow</h2>
+      </div>
+
+      <div className="mb-8">
+        <h1 className="text-4xl font-heading font-bold text-chocolate dark:text-crema mb-2 tracking-tight">Welcome back</h1>
+        <p className="text-slateGray dark:text-latte text-base">Enter your credentials to access your dashboard.</p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label className="label">Password</label>
+          <label className="block text-xs font-bold text-slateGray dark:text-latte uppercase tracking-wide mb-1.5 ml-1">Email Address</label>
+          <input
+            type="email"
+            placeholder="name@company.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full bg-white dark:bg-mocha border border-gray-200 dark:border-cacao rounded-xl px-4 py-3.5 text-chocolate dark:text-crema focus:outline-none focus:ring-2 focus:ring-caramel/50 focus:border-caramel transition-all shadow-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 dark:text-latte font-medium"
+            required
+          />
+        </div>
+
+        <div>
+          <div className="flex items-center justify-between mb-1.5 ml-1 mr-1">
+            <label className="block text-xs font-bold text-slateGray dark:text-latte uppercase tracking-wide">Password</label>
+            <button type="button" onClick={() => toast("Please contact your administrator to reset your password.", { icon: "🔒" })} className="text-xs font-bold text-caramel hover:text-chocolate dark:text-crema dark:hover:text-white transition-colors">
+              Forgot password?
+            </button>
+          </div>
           <div className="relative">
-            <input 
-              type={showPassword ? "text" : "password"} 
-              value={password} 
-              onChange={e => setPassword(e.target.value)} 
-              className="input-field pr-10" 
-              required 
+            <input
+              type={showPassword ? 'text' : 'password'}
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full bg-white dark:bg-mocha border border-gray-200 dark:border-cacao rounded-xl pl-4 pr-12 py-3.5 text-chocolate dark:text-crema focus:outline-none focus:ring-2 focus:ring-caramel/50 focus:border-caramel transition-all shadow-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 dark:text-latte font-medium tracking-wider"
+              required
             />
             <button 
-              type="button"
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slateGray hover:text-chocolate transition-colors"
+              type="button" 
               onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-chocolate dark:text-crema dark:hover:text-white transition-colors"
             >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
         </div>
-        <button type="submit" className="btn-primary w-full mt-4">Sign In</button>
+
+        <button 
+          type="submit" 
+          className="w-full py-4 bg-chocolate text-white font-bold text-base rounded-xl shadow-md hover:shadow-lg hover:bg-[#3D251E] active:scale-[0.99] transition-all mt-8"
+        >
+          Sign in to FrostFlow
+        </button>
       </form>
     </div>
   );

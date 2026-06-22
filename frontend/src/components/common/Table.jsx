@@ -19,11 +19,11 @@ const Table = ({ columns, data, keyField = '_id', onRowClick, itemsPerPage = 10 
   const handleNext = () => setCurrentPage(p => Math.min(totalPages, p + 1));
 
   return (
-    <div className="w-full bg-white rounded-lg shadow-soft flex flex-col">
+    <div className="w-full bg-white dark:bg-mocha rounded-lg shadow-soft flex flex-col">
       <div className="w-full overflow-x-auto">
         <table className="w-full text-left border-collapse min-w-max">
           <thead>
-            <tr className="bg-vanilla text-chocolate border-b border-gray-100">
+            <tr className="bg-vanilla dark:bg-espresso text-chocolate dark:text-crema border-b border-gray-100 dark:border-cacao">
               {columns.map((col, index) => (
                 <th key={index} className="p-section font-semibold text-sm tracking-wider whitespace-nowrap">
                   {col.header}
@@ -34,7 +34,7 @@ const Table = ({ columns, data, keyField = '_id', onRowClick, itemsPerPage = 10 
           <tbody className="divide-y divide-gray-100">
             {data.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="p-section text-center text-slateGray py-12">
+                <td colSpan={columns.length} className="p-section text-center text-slateGray dark:text-latte py-12">
                   No data available.
                 </td>
               </tr>
@@ -46,7 +46,7 @@ const Table = ({ columns, data, keyField = '_id', onRowClick, itemsPerPage = 10 
                   className={`group ${onRowClick ? 'cursor-pointer hover:bg-vanilla/50 transition-colors' : ''}`}
                 >
                   {columns.map((col, index) => (
-                    <td key={index} className="p-section text-sm text-slateGray align-middle">
+                    <td key={index} className="p-section text-sm text-slateGray dark:text-latte align-middle">
                       {col.render ? col.render(row) : row[col.accessor]}
                     </td>
                   ))}
@@ -59,25 +59,25 @@ const Table = ({ columns, data, keyField = '_id', onRowClick, itemsPerPage = 10 
       
       {/* Pagination Controls */}
       {data.length > 0 && (
-        <div className="p-4 border-t border-gray-100 flex items-center justify-between bg-white rounded-b-lg">
-          <p className="text-sm text-slateGray">
-            Showing <span className="font-medium text-chocolate">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium text-chocolate">{Math.min(currentPage * itemsPerPage, data.length)}</span> of <span className="font-medium text-chocolate">{data.length}</span> results
+        <div className="p-4 border-t border-gray-100 dark:border-cacao flex items-center justify-between bg-white dark:bg-mocha rounded-b-lg">
+          <p className="text-sm text-slateGray dark:text-latte">
+            Showing <span className="font-medium text-chocolate dark:text-crema">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium text-chocolate dark:text-crema">{Math.min(currentPage * itemsPerPage, data.length)}</span> of <span className="font-medium text-chocolate dark:text-crema">{data.length}</span> results
           </p>
           <div className="flex gap-2">
             <button 
               onClick={handlePrev}
               disabled={currentPage === 1}
-              className="p-1 rounded bg-vanilla text-chocolate disabled:opacity-50 disabled:cursor-not-allowed hover:bg-caramel/20 transition-colors"
+              className="p-1 rounded bg-vanilla dark:bg-espresso text-chocolate dark:text-crema disabled:opacity-50 disabled:cursor-not-allowed hover:bg-caramel/20 transition-colors"
             >
               <ChevronLeft size={18} />
             </button>
-            <span className="px-3 py-1 text-sm font-medium text-chocolate">
+            <span className="px-3 py-1 text-sm font-medium text-chocolate dark:text-crema">
               Page {currentPage} of {totalPages}
             </span>
             <button 
               onClick={handleNext}
               disabled={currentPage === totalPages}
-              className="p-1 rounded bg-vanilla text-chocolate disabled:opacity-50 disabled:cursor-not-allowed hover:bg-caramel/20 transition-colors"
+              className="p-1 rounded bg-vanilla dark:bg-espresso text-chocolate dark:text-crema disabled:opacity-50 disabled:cursor-not-allowed hover:bg-caramel/20 transition-colors"
             >
               <ChevronRight size={18} />
             </button>

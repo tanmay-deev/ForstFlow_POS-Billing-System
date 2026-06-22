@@ -79,7 +79,7 @@ const CustomerModal = ({ isOpen, onClose, onSuccess, editingCustomer = null }) =
           placeholder="e.g. 1234567890"
         />
 
-        <div className="flex justify-end gap-3 pt-section border-t border-gray-100">
+        <div className="flex justify-end gap-3 pt-section border-t border-gray-100 dark:border-cacao">
           <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>Cancel</Button>
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? 'Saving...' : 'Save Customer'}

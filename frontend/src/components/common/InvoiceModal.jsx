@@ -19,29 +19,31 @@ const InvoiceModal = ({ isOpen, onClose, order }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Invoice" maxWidth="max-w-2xl">
-      <div id="invoice-content" className="p-4 bg-white">
+      <div id="invoice-content" className="p-4 bg-white dark:bg-mocha">
         <div className="flex justify-between items-start mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-chocolate mb-2">{settings?.businessName || 'FrostFlow'}</h1>
-            <p className="text-slateGray whitespace-pre-wrap">{settings?.address || '123 Ice Cream Lane, Sweet City'}</p>
-            {settings?.contactNumber && <p className="text-slateGray mt-1">Phone: {settings.contactNumber}</p>}
+            <h1 className="text-3xl font-bold text-chocolate dark:text-crema mb-2">{settings?.businessName || 'FrostFlow'}</h1>
+            <p className="text-slateGray dark:text-latte whitespace-pre-wrap">{settings?.address || '123 Ice Cream Lane, Sweet City'}</p>
+            {settings?.contactNumber && <p className="text-slateGray dark:text-latte mt-1">Phone: {settings.contactNumber}</p>}
+            {settings?.email && <p className="text-slateGray dark:text-latte">Email: {settings.email}</p>}
+            {settings?.gstNumber && <p className="text-slateGray dark:text-latte mt-1 font-bold">GSTIN: {settings.gstNumber}</p>}
           </div>
           <div className="text-right">
             <h2 className="text-xl font-bold text-caramel mb-2">INVOICE</h2>
-            <p className="text-sm font-medium text-slateGray">Order #: {order.orderNumber}</p>
-            <p className="text-sm text-slateGray">Date: {new Date(order.createdAt).toLocaleDateString()}</p>
-            <p className="text-sm text-slateGray">Status: <span className="uppercase">{order.paymentStatus}</span></p>
+            <p className="text-sm font-medium text-slateGray dark:text-latte">Order #: {order.orderNumber}</p>
+            <p className="text-sm text-slateGray dark:text-latte">Date: {new Date(order.createdAt).toLocaleDateString()}</p>
+            <p className="text-sm text-slateGray dark:text-latte">Status: <span className="uppercase">{order.paymentStatus}</span></p>
           </div>
         </div>
 
         <div className="mb-8">
-          <h3 className="text-sm font-bold text-chocolate mb-2 border-b pb-1">Billed To:</h3>
-          <p className="text-sm text-slateGray">{order.customerId?.fullName || order.customer?.name || 'Walk-in Customer'}</p>
+          <h3 className="text-sm font-bold text-chocolate dark:text-crema mb-2 border-b pb-1">Billed To:</h3>
+          <p className="text-sm text-slateGray dark:text-latte">{order.customerId?.fullName || order.customer?.name || 'Walk-in Customer'}</p>
         </div>
 
         <table className="w-full mb-8 text-sm">
           <thead>
-            <tr className="border-b border-gray-200 text-left text-chocolate">
+            <tr className="border-b border-gray-200 dark:border-cacao text-left text-chocolate dark:text-crema">
               <th className="py-2">Item</th>
               <th className="py-2 text-center">Qty</th>
               <th className="py-2 text-right">Price</th>
@@ -50,7 +52,7 @@ const InvoiceModal = ({ isOpen, onClose, order }) => {
           </thead>
           <tbody>
             {order.items?.map((item, idx) => (
-              <tr key={idx} className="border-b border-gray-100 last:border-0 text-slateGray">
+              <tr key={idx} className="border-b border-gray-100 dark:border-cacao last:border-0 text-slateGray dark:text-latte">
                 <td className="py-2">{item.name}</td>
                 <td className="py-2 text-center">{item.quantity}</td>
                 <td className="py-2 text-right">₹{item.price.toFixed(2)}</td>
@@ -62,12 +64,12 @@ const InvoiceModal = ({ isOpen, onClose, order }) => {
 
         <div className="flex justify-end text-sm">
           <div className="w-64 space-y-2">
-            <div className="flex justify-between text-slateGray">
+            <div className="flex justify-between text-slateGray dark:text-latte">
               <span>Subtotal:</span>
               <span>₹{order.subtotal?.toFixed(2) || '0.00'}</span>
             </div>
-            <div className="flex justify-between text-slateGray">
-              <span>Tax (5%):</span>
+            <div className="flex justify-between text-slateGray dark:text-latte">
+              <span>Tax ({settings?.gstPercentage || 5}%):</span>
               <span>₹{order.taxAmount?.toFixed(2) || '0.00'}</span>
             </div>
             {order.discountAmount > 0 && (
@@ -76,7 +78,7 @@ const InvoiceModal = ({ isOpen, onClose, order }) => {
                 <span>-₹{order.discountAmount.toFixed(2)}</span>
               </div>
             )}
-            <div className="flex justify-between font-bold text-chocolate border-t pt-2 text-lg">
+            <div className="flex justify-between font-bold text-chocolate dark:text-crema border-t pt-2 text-lg">
               <span>Total:</span>
               <span className="text-caramel">₹{order.totalAmount?.toFixed(2) || '0.00'}</span>
             </div>

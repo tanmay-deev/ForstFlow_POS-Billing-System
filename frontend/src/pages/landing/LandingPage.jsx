@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react';
 const LandingPage = () => {
   return (
     <div className="w-full">
-      <section className="relative min-h-[calc(100vh-80px)] flex flex-col md:flex-row items-center px-6 py-12 md:px-12 lg:px-24 bg-gradient-to-b from-vanilla to-white overflow-hidden">
+      <section className="relative min-h-[calc(100vh-80px)] flex flex-col md:flex-row items-center px-6 py-12 md:px-12 lg:px-24 bg-gradient-to-b from-vanilla to-white dark:from-espresso dark:to-mocha overflow-hidden transition-colors duration-300">
         
         {/* Background blobs for aesthetic */}
         <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-caramel/10 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
@@ -17,7 +17,7 @@ const LandingPage = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-4xl sm:text-5xl lg:text-7xl font-heading font-black leading-tight text-chocolate tracking-tight"
+            className="text-4xl sm:text-5xl lg:text-7xl font-heading font-black leading-tight text-chocolate dark:text-crema tracking-tight"
           >
             The Sweetest Way to Run Your <span className="text-caramel">Parlour.</span>
           </motion.h1>
@@ -25,7 +25,7 @@ const LandingPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="mt-4 sm:mt-6 text-base sm:text-xl text-slateGray max-w-lg mx-auto md:mx-0 leading-relaxed"
+            className="mt-4 sm:mt-6 text-base sm:text-xl text-slateGray dark:text-latte max-w-lg mx-auto md:mx-0 leading-relaxed"
           >
             FrostFlow is the modern, cloud-based POS and inventory management system designed specifically for premium ice cream and dessert businesses.
           </motion.p>
@@ -45,7 +45,7 @@ const LandingPage = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="relative rounded-3xl overflow-hidden shadow-2xl aspect-square md:aspect-auto md:h-[600px] border-8 border-white bg-white mx-auto max-w-md md:max-w-none"
+            className="relative rounded-3xl overflow-hidden shadow-2xl aspect-square md:aspect-auto md:h-[600px] border-8 border-white dark:border-cacao bg-white dark:bg-mocha mx-auto max-w-md md:max-w-none"
           >
             <img 
               src={heroImg} 

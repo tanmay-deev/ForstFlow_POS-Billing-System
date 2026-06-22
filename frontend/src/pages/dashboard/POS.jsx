@@ -84,17 +84,20 @@ const POS = () => {
   };
 
   const updateQuantity = (id, delta) => {
-    setCart(prev => prev.map(item => {
-      if (item._id === id) {
-        const newQty = item.quantity + delta;
-        if (newQty > item.stockQuantity) {
-          toast.error('Cannot exceed available stock');
-          return item;
+    setCart(prev => {
+      const updated = prev.map(item => {
+        if (item._id === id) {
+          const newQty = item.quantity + delta;
+          if (newQty > item.stockQuantity) {
+            toast.error('Cannot exceed available stock');
+            return item;
+          }
+          return { ...item, quantity: newQty };
         }
-        return { ...item, quantity: Math.max(1, newQty) };
-      }
-      return item;
-    }));
+        return item;
+      });
+      return updated.filter(item => item.quantity > 0);
+    });
   };
 
   const removeFromCart = (id) => {
@@ -192,71 +195,68 @@ const POS = () => {
     <div className="flex flex-col lg:flex-row gap-section h-auto lg:h-[calc(100vh-8rem)]">
       
       {/* Left Side: Product Selection */}
-      <div className="flex-1 flex flex-col bg-white rounded-xl shadow-soft overflow-hidden min-h-[500px] lg:min-h-0">
+      <div className="flex-1 flex flex-col bg-white dark:bg-mocha dark:bg-espresso rounded-xl shadow-soft overflow-hidden min-h-[500px] lg:min-h-0 border border-transparent dark:border-cacao">
         {/* Search & Categories */}
-        <div className="p-section border-b border-gray-100 space-y-4">
+        <div className="p-4 border-b border-gray-100 dark:border-cacao bg-white/80 dark:bg-espresso/80 backdrop-blur-md space-y-4 shrink-0 z-10 sticky top-0">
           <div className="relative">
-            <Search className="absolute left-3 top-3 text-gray-400" size={20} />
+            <Search className="absolute left-3 top-3 text-gray-400 dark:text-latte" size={20} />
             <input 
               type="text" 
-              placeholder="Search products..." 
+              placeholder="Search by product name or code..." 
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-caramel"
+              className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-[#2A1F1D] dark:bg-mocha border border-gray-200 dark:border-cacao rounded-lg focus:outline-none focus:ring-2 focus:ring-caramel focus:bg-white dark:bg-mocha dark:focus:bg-slate-900 text-sm font-medium transition-colors text-slateGray dark:text-latte placeholder-gray-400 dark:placeholder-gray-500"
             />
           </div>
-          <div>
-            <h3 className="text-lg font-bold text-chocolate mb-3">Category</h3>
-            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+          <div className="flex gap-2.5 overflow-x-auto pb-1 scrollbar-hide">
+            <button 
+              onClick={() => setSelectedCategory('All')}
+              className={`whitespace-nowrap px-5 py-2 rounded-lg text-sm font-bold transition-all ${selectedCategory === 'All' ? 'bg-chocolate dark:bg-caramel text-white shadow-md' : 'bg-white dark:bg-mocha text-slateGray dark:text-latte border border-gray-200 dark:border-cacao hover:border-caramel/50 dark:hover:border-caramel hover:text-chocolate dark:text-crema dark:hover:text-white'}`}
+            >
+              All Items
+            </button>
+            {categories.map(c => (
               <button 
-                onClick={() => setSelectedCategory('All')}
-                className={`whitespace-nowrap px-6 py-2 rounded-xl border-2 text-sm font-semibold transition-colors flex items-center gap-2 ${selectedCategory === 'All' ? 'border-caramel text-caramel bg-caramel/5' : 'border-gray-200 text-slateGray hover:border-caramel/50'}`}
+                key={c._id}
+                onClick={() => setSelectedCategory(c.name)}
+                className={`whitespace-nowrap px-5 py-2 rounded-lg text-sm font-bold transition-all ${selectedCategory === c.name ? 'bg-chocolate dark:bg-caramel text-white shadow-md' : 'bg-white dark:bg-mocha text-slateGray dark:text-latte border border-gray-200 dark:border-cacao hover:border-caramel/50 dark:hover:border-caramel hover:text-chocolate dark:text-crema dark:hover:text-white'}`}
               >
-                All Items
+                {c.name}
               </button>
-              {categories.map(c => (
-                <button 
-                  key={c._id}
-                  onClick={() => setSelectedCategory(c.name)}
-                  className={`whitespace-nowrap px-6 py-2 rounded-xl border-2 text-sm font-semibold transition-colors flex items-center gap-2 ${selectedCategory === c.name ? 'border-caramel text-caramel bg-caramel/5' : 'border-gray-200 text-slateGray hover:border-caramel/50'}`}
-                >
-                  {c.name}
-                </button>
-              ))}
-            </div>
+            ))}
           </div>
         </div>
 
         {/* Product Grid */}
-        <div className="flex-1 p-section overflow-y-auto bg-gray-50 flex flex-col">
-          <h3 className="text-lg font-bold text-chocolate mb-4 shrink-0">Product</h3>
+        <div className="flex-1 p-4 overflow-y-auto bg-gray-50 dark:bg-[#2A1F1D] dark:bg-espresso flex flex-col relative z-0">
           {filteredProducts.length === 0 ? (
             <EmptyState title="No products found" message="Try adjusting your search or category filter." icon={PackageX} />
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 pb-4">
               {filteredProducts.map(product => (
                 <div 
                   key={product._id} 
-                  className={`bg-white rounded-xl shadow-sm border-2 transition-all flex flex-col overflow-hidden ${product.stockQuantity <= 0 ? 'border-gray-200 opacity-60' : 'border-transparent hover:border-caramel hover:shadow-medium'}`}
+                  onClick={() => addToCart(product)}
+                  className={`bg-white dark:bg-mocha rounded-md shadow-sm border-2 transition-all flex flex-col overflow-hidden cursor-pointer select-none relative ${product.stockQuantity <= 0 ? 'border-gray-200 dark:border-cacao opacity-60 cursor-not-allowed' : 'border-transparent hover:border-caramel hover:-translate-y-1 hover:shadow-md active:scale-[0.98]'}`}
                 >
-                  <div className="aspect-square bg-vanilla overflow-hidden flex items-center justify-center p-4">
+                  {product.stockQuantity > 0 && product.stockQuantity <= 10 && (
+                    <div className="absolute top-1 right-1 bg-softRed/90 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-sm shadow-sm z-10 backdrop-blur-sm">
+                      Only {product.stockQuantity}
+                    </div>
+                  )}
+                  <div className="aspect-square bg-vanilla overflow-hidden flex items-center justify-center p-2 relative group">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     {product.image ? (
-                      <img src={product.image} alt={product.name} className="w-full h-full object-contain mix-blend-multiply" />
+                      <img src={product.image} alt={product.name} className="w-full h-full object-contain mix-blend-multiply drop-shadow-sm transform group-hover:scale-105 transition-transform duration-300" draggable="false" />
                     ) : (
-                      <span className="text-chocolate/30 font-bold text-4xl">{product.name.charAt(0)}</span>
+                      <span className="text-chocolate dark:text-crema/20 dark:text-crema/20 font-bold text-4xl">{product.name.charAt(0)}</span>
                     )}
                   </div>
-                  <div className="p-4 flex flex-col flex-1 text-center">
-                    <h3 className="font-semibold text-chocolate text-sm line-clamp-2 min-h-[40px] leading-tight mb-1" title={product.name}>{product.name}</h3>
-                    <div className="text-chocolate font-bold text-sm mb-3">₹{product.price.toFixed(2)}</div>
-                    <div className="mt-auto">
-                      <button 
-                        onClick={() => addToCart(product)}
-                        disabled={product.stockQuantity <= 0}
-                        className="w-full py-2 bg-caramel text-white font-bold rounded-lg hover:opacity-90 transition-opacity disabled:bg-gray-300"
-                      >
-                        Add to Cart
-                      </button>
+                  <div className="p-2.5 flex flex-col bg-white dark:bg-mocha shrink-0 border-t border-gray-50 dark:border-cacao">
+                    <h3 className="font-semibold text-chocolate dark:text-crema dark:text-latte text-xs truncate mb-1.5" title={product.name}>{product.name}</h3>
+                    <div className="flex items-center justify-between gap-1">
+                      <div className="text-caramel font-bold text-sm truncate">₹{product.price.toFixed(2)}</div>
+                      <div className="text-[9px] font-bold text-slateGray dark:text-latte bg-gray-100 dark:bg-cacao dark:bg-[#2A1F1D] px-1.5 py-0.5 rounded-sm shrink-0">Stock: {product.stockQuantity}</div>
                     </div>
                   </div>
                 </div>
@@ -267,28 +267,28 @@ const POS = () => {
       </div>
 
       {/* Right Side: Billing Cart */}
-      <div className="w-full lg:w-96 flex flex-col bg-white rounded-lg shadow-soft overflow-hidden shrink-0">
+      <div className="w-full lg:w-96 flex flex-col bg-white dark:bg-mocha dark:bg-espresso rounded-lg shadow-soft overflow-hidden shrink-0 border border-transparent dark:border-cacao">
         {/* Cart Top Actions */}
-        <div className="p-3 bg-white border-b border-gray-100 flex flex-wrap gap-2">
-           <div className="flex-1 min-w-[80px] bg-caramel text-white font-bold rounded-lg flex items-center justify-center py-2 shadow-sm border border-caramel text-xs sm:text-sm">
+        <div className="p-4 bg-white dark:bg-mocha dark:bg-espresso border-b border-gray-100 dark:border-cacao flex flex-wrap gap-2 shrink-0">
+           <div className="flex-1 min-w-[80px] bg-chocolate dark:bg-caramel text-white font-bold rounded-lg flex items-center justify-center py-2.5 shadow-sm text-sm uppercase tracking-wide">
              Order
            </div>
-           <button onClick={() => setCustomerModalOpen(true)} className="flex-1 min-w-[100px] bg-white hover:bg-vanilla text-slateGray font-medium rounded-lg flex items-center justify-center py-2 shadow-sm border border-gray-200 text-xs sm:text-sm transition-colors">
-             + Customer
+           <button onClick={() => setCustomerModalOpen(true)} className="flex-1 min-w-[90px] bg-gray-50 dark:bg-mocha hover:bg-vanilla dark:hover:bg-espresso text-chocolate dark:text-crema font-bold rounded-lg flex items-center justify-center py-2.5 border border-gray-200 dark:border-cacao text-sm transition-all active:scale-95">
+             <UserPlus size={16} className="mr-2" /> Customer
            </button>
-           <button onClick={() => setCart([])} disabled={cart.length === 0} className="flex-1 min-w-[80px] bg-white hover:bg-softRed/10 text-slateGray hover:text-softRed font-medium rounded-lg flex items-center justify-center py-2 shadow-sm border border-gray-200 text-xs sm:text-sm transition-colors disabled:opacity-50">
-             Clear all
+           <button onClick={() => setCart([])} disabled={cart.length === 0} className="w-12 bg-gray-50 dark:bg-[#2A1F1D] hover:bg-softRed dark:hover:bg-softRed/90 hover:text-white dark:hover:text-white hover:border-softRed text-slateGray dark:text-latte font-bold rounded-lg flex items-center justify-center py-2.5 border border-gray-200 dark:border-cacao transition-all disabled:opacity-50 disabled:hover:bg-gray-50 dark:disabled:hover:bg-[#2A1F1D] disabled:hover:text-slateGray dark:disabled:hover:text-latte disabled:hover:border-gray-200 dark:disabled:hover:border-cacao active:scale-95">
+             <Trash2 size={18} />
            </button>
         </div>
 
         {/* Customer Selection */}
-        <div className="px-section py-3 border-b border-gray-100 bg-white flex gap-2 items-center">
+        <div className="px-4 py-2 border-b border-gray-100 dark:border-cacao bg-white dark:bg-mocha dark:bg-espresso flex gap-2 items-center">
           <div className="flex-1 relative">
-            <User className="absolute left-3 top-2.5 text-gray-400" size={18} />
+            <User className="absolute left-3 top-2.5 text-gray-400 dark:text-latte" size={18} />
             <select 
               value={selectedCustomerId}
               onChange={(e) => setSelectedCustomerId(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-caramel appearance-none bg-white text-sm"
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-cacao rounded-md focus:outline-none focus:ring-2 focus:ring-caramel appearance-none bg-white dark:bg-mocha text-chocolate dark:text-crema dark:text-latte text-sm"
             >
               <option value="">Walk-in Customer</option>
               {customers.map(c => (
@@ -299,51 +299,42 @@ const POS = () => {
         </div>
 
         {/* Cart Items */}
-        <div className="flex-1 overflow-y-auto p-section space-y-3 bg-vanilla/30">
+        <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-gray-50 dark:bg-[#2A1F1D] dark:bg-espresso">
           {cart.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center text-slateGray opacity-50">
-              <ShoppingCart size={48} className="mb-4" />
-              <p>Cart is empty</p>
+            <div className="h-full flex flex-col items-center justify-center text-slateGray dark:text-latte opacity-50">
+              <ShoppingCart size={56} className="mb-4 text-gray-300 dark:text-latte" />
+              <p className="font-medium text-lg">Cart is empty</p>
+              <p className="text-sm mt-1">Tap products to add them</p>
             </div>
           ) : (
             cart.map(item => (
-              <div key={item._id} className="flex flex-col sm:flex-row sm:items-center bg-white p-3 rounded-xl shadow-sm border border-gray-100 gap-3">
+              <div key={item._id} className="flex items-center bg-white dark:bg-mocha p-2.5 rounded-xl shadow-sm border border-gray-100 dark:border-cacao/80 dark:border-cacao gap-3 hover:border-caramel/30 dark:hover:border-caramel/50 transition-colors">
                 
-                <div className="flex items-center gap-3 flex-1 min-w-0">
-                  <div className="w-12 h-12 bg-vanilla rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
-                    {item.image ? (
-                       <img src={item.image} alt={item.name} className="w-full h-full object-contain mix-blend-multiply" />
-                    ) : (
-                       <span className="text-chocolate/30 font-bold">{item.name.charAt(0)}</span>
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-chocolate text-sm truncate">{item.name}</h4>
-                    <p className="text-xs text-slateGray">₹{item.price.toFixed(2)}</p>
-                  </div>
-                  {/* Mobile delete button */}
-                  <button onClick={() => removeFromCart(item._id)} className="sm:hidden text-gray-400 hover:text-softRed transition-colors p-1 shrink-0">
-                    <Trash2 size={18} />
-                  </button>
+                <div className="w-12 h-12 bg-vanilla rounded-lg flex items-center justify-center shrink-0 overflow-hidden border border-gray-50 dark:border-cacao/50">
+                  {item.image ? (
+                     <img src={item.image} alt={item.name} className="w-full h-full object-contain mix-blend-multiply drop-shadow-sm p-1" />
+                  ) : (
+                     <span className="text-chocolate dark:text-crema/30 dark:text-crema/30 font-bold text-lg">{item.name.charAt(0)}</span>
+                  )}
                 </div>
 
-                <div className="flex items-center justify-between sm:justify-end shrink-0 gap-3 pl-15 sm:pl-0">
-                  <div className="flex items-center gap-1 bg-white border border-gray-200 rounded-md px-1 shrink-0">
-                    <button onClick={() => updateQuantity(item._id, -1)} className="w-7 h-7 flex items-center justify-center text-slateGray hover:text-chocolate font-bold">
-                      <Minus size={14} />
-                    </button>
-                    <span className="font-bold w-6 text-center text-sm">{item.quantity}</span>
-                    <button onClick={() => updateQuantity(item._id, 1)} className="w-7 h-7 flex items-center justify-center text-slateGray hover:text-chocolate font-bold">
-                      <Plus size={14} />
-                    </button>
+                <div className="flex-1 min-w-0 pr-2">
+                  <h4 className="font-bold text-chocolate dark:text-crema dark:text-latte text-sm truncate" title={item.name}>{item.name}</h4>
+                  <p className="text-xs text-caramel font-semibold mt-0.5">₹{item.price.toFixed(2)}</p>
+                </div>
+
+                <div className="flex flex-col items-end gap-1.5 shrink-0">
+                  <div className="font-bold text-chocolate dark:text-crema text-base text-right shrink-0">
+                    ₹{(item.price * item.quantity).toFixed(2)}
                   </div>
-                  <div className="flex items-center gap-3 shrink-0">
-                    <div className="font-bold text-chocolate text-sm text-right shrink-0">
-                      ₹{(item.price * item.quantity).toFixed(2)}
-                    </div>
-                    {/* Desktop delete button */}
-                    <button onClick={() => removeFromCart(item._id)} className="hidden sm:block text-gray-400 hover:text-softRed transition-colors shrink-0">
-                      <Trash2 size={18} />
+                  
+                  <div className="flex items-center gap-1 bg-gray-50 dark:bg-[#2A1F1D] dark:bg-espresso rounded-lg shrink-0 border border-gray-200 dark:border-cacao/60 dark:border-cacao p-0.5">
+                    <button onClick={() => updateQuantity(item._id, -1)} className="w-6 h-6 flex items-center justify-center bg-white dark:bg-mocha rounded-md text-slateGray dark:text-latte hover:text-chocolate dark:text-crema dark:hover:text-white hover:shadow-sm active:bg-gray-100 dark:bg-cacao dark:active:bg-slate-700 transition-all">
+                      <Minus size={12} strokeWidth={3} />
+                    </button>
+                    <span className="font-bold w-6 text-center text-xs text-chocolate dark:text-crema">{item.quantity}</span>
+                    <button onClick={() => updateQuantity(item._id, 1)} className="w-6 h-6 flex items-center justify-center bg-white dark:bg-mocha rounded-md text-slateGray dark:text-latte hover:text-chocolate dark:text-crema dark:hover:text-white hover:shadow-sm active:bg-gray-100 dark:bg-cacao dark:active:bg-slate-700 transition-all">
+                      <Plus size={12} strokeWidth={3} />
                     </button>
                   </div>
                 </div>
@@ -354,70 +345,74 @@ const POS = () => {
         </div>
 
         {/* Offer Code */}
-        <div className="px-section py-3 border-t border-gray-100 bg-white flex gap-2 w-full box-border">
+        <div className="px-4 py-2 border-t border-gray-100 dark:border-cacao bg-white dark:bg-mocha dark:bg-espresso flex gap-2 w-full box-border shrink-0">
           <input 
             type="text"
             placeholder="Enter Offer Code" 
             value={offerCode}
             onChange={e => setOfferCode(e.target.value.toUpperCase())}
             disabled={appliedOffer}
-            className="flex-1 min-w-0 w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-caramel disabled:bg-gray-100 disabled:text-gray-500 uppercase font-semibold"
+            className="flex-1 min-w-0 w-full bg-white dark:bg-mocha text-chocolate dark:text-crema border border-gray-200 dark:border-cacao rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-caramel disabled:bg-gray-100 dark:disabled:bg-cacao disabled:text-gray-500 dark:disabled:text-latte uppercase font-semibold"
           />
           {!appliedOffer ? (
-            <Button onClick={handleApplyOffer} variant="outline" className="shrink-0" size="small">Apply</Button>
+            <Button onClick={handleApplyOffer} variant="outline" className="shrink-0 py-1.5 h-auto dark:border-cacao dark:text-latte dark:hover:bg-slate-800" size="small">Apply</Button>
           ) : (
-            <Button onClick={() => { setAppliedOffer(null); setOfferCode(''); }} variant="outline" className="shrink-0 text-softRed border-softRed hover:bg-softRed/10 hover:text-red-700" size="small">Remove</Button>
+            <Button onClick={() => { setAppliedOffer(null); setOfferCode(''); }} variant="outline" className="shrink-0 text-softRed border-softRed hover:bg-softRed/10 hover:text-red-700 py-1.5 h-auto" size="small">Remove</Button>
           )}
         </div>
 
         {/* Billing Summary */}
-        <div className="p-section border-t border-gray-100 bg-white space-y-2">
-          <div className="flex justify-between text-slateGray text-sm">
+        <div className="p-4 border-t border-gray-100 dark:border-cacao bg-white dark:bg-mocha dark:bg-espresso space-y-1.5 shrink-0">
+          <div className="flex justify-between text-slateGray dark:text-latte text-sm">
             <span>Subtotal</span>
-            <span className="font-medium text-chocolate">₹{subtotal.toFixed(2)}</span>
+            <span className="font-medium text-chocolate dark:text-crema dark:text-latte">₹{subtotal.toFixed(2)}</span>
           </div>
-          <div className="flex justify-between text-slateGray text-sm">
+          <div className="flex justify-between text-slateGray dark:text-latte text-sm">
             <span>Tax ({taxRate}%)</span>
-            <span className="font-medium text-chocolate">₹{tax.toFixed(2)}</span>
+            <span className="font-medium text-chocolate dark:text-crema dark:text-latte">₹{tax.toFixed(2)}</span>
           </div>
           {appliedOffer && (
-            <div className="flex justify-between text-slateGray text-sm">
+            <div className="flex justify-between text-slateGray dark:text-latte text-sm">
               <span className="flex items-center gap-1">Discount ({appliedOffer.code})</span>
-              <span className="font-medium text-chocolate">-₹{discountAmount.toFixed(2)}</span>
+              <span className="font-medium text-chocolate dark:text-crema dark:text-latte">-₹{discountAmount.toFixed(2)}</span>
             </div>
           )}
-          <div className="flex justify-between text-chocolate font-bold text-lg pt-2 mt-2">
+          <div className="flex justify-between text-chocolate dark:text-crema font-bold text-lg pt-1 mt-1">
             <span>Total</span>
             <span>₹{total.toFixed(2)}</span>
           </div>
 
-          <div className="pt-4 space-y-3">
-            <div className="flex gap-2">
+          <div className="pt-2 space-y-2">
+            <div className="grid grid-cols-3 gap-2">
               <button 
                 onClick={() => setPaymentMethod('cash')}
-                className={`flex-1 py-2 rounded-xl text-sm font-bold flex justify-center items-center transition-colors ${paymentMethod === 'cash' ? 'bg-caramel text-white shadow-soft border border-caramel' : 'bg-white text-slateGray border border-gray-200 hover:bg-vanilla'}`}
+                className={`py-2 rounded-lg text-sm font-bold flex flex-col items-center gap-1 transition-all ${paymentMethod === 'cash' ? 'bg-chocolate dark:bg-caramel text-white shadow-md border-transparent ring-2 ring-chocolate/20 ring-offset-1 dark:ring-offset-slate-900' : 'bg-white dark:bg-mocha text-slateGray dark:text-latte border border-gray-200 dark:border-cacao hover:bg-gray-50 dark:bg-[#2A1F1D] dark:hover:bg-slate-700'}`}
               >
-                Cash
+                <Banknote size={16} className={paymentMethod === 'cash' ? 'text-caramel dark:text-crema' : 'text-gray-400'} /> 
+                <span>Cash</span>
               </button>
               <button 
                 onClick={() => setPaymentMethod('card')}
-                className={`flex-1 py-2 rounded-xl text-sm font-bold flex justify-center items-center transition-colors ${paymentMethod === 'card' ? 'bg-caramel text-white shadow-soft border border-caramel' : 'bg-white text-slateGray border border-gray-200 hover:bg-vanilla'}`}
+                className={`py-2 rounded-lg text-sm font-bold flex flex-col items-center gap-1 transition-all ${paymentMethod === 'card' ? 'bg-chocolate dark:bg-caramel text-white shadow-md border-transparent ring-2 ring-chocolate/20 ring-offset-1 dark:ring-offset-slate-900' : 'bg-white dark:bg-mocha text-slateGray dark:text-latte border border-gray-200 dark:border-cacao hover:bg-gray-50 dark:bg-[#2A1F1D] dark:hover:bg-slate-700'}`}
               >
-                Debit
+                <CreditCard size={16} className={paymentMethod === 'card' ? 'text-caramel dark:text-crema' : 'text-gray-400'} /> 
+                <span>Card</span>
               </button>
               <button 
                 onClick={() => setPaymentMethod('upi')}
-                className={`flex-1 py-2 rounded-xl text-sm font-bold flex justify-center items-center transition-colors ${paymentMethod === 'upi' ? 'bg-caramel text-white shadow-soft border border-caramel' : 'bg-white text-slateGray border border-gray-200 hover:bg-vanilla'}`}
+                className={`py-2 rounded-lg text-sm font-bold flex flex-col items-center gap-1 transition-all ${paymentMethod === 'upi' ? 'bg-chocolate dark:bg-caramel text-white shadow-md border-transparent ring-2 ring-chocolate/20 ring-offset-1 dark:ring-offset-slate-900' : 'bg-white dark:bg-mocha text-slateGray dark:text-latte border border-gray-200 dark:border-cacao hover:bg-gray-50 dark:bg-[#2A1F1D] dark:hover:bg-slate-700'}`}
               >
-                UPI
+                <Smartphone size={16} className={paymentMethod === 'upi' ? 'text-caramel dark:text-crema' : 'text-gray-400'} /> 
+                <span>UPI</span>
               </button>
             </div>
             <button 
-              className="w-full mt-2 py-4 text-chocolate bg-white border-2 border-gray-200 rounded-xl font-bold text-lg hover:border-caramel hover:text-caramel transition-colors disabled:opacity-50"
+              className="w-full mt-1 py-3 bg-caramel text-white rounded-xl font-bold text-lg shadow-lg hover:opacity-90 hover:shadow-xl active:scale-[0.98] transition-all disabled:opacity-50 disabled:active:scale-100 disabled:hover:opacity-100 flex items-center justify-center gap-2 border-b-4 border-black/10"
               onClick={handleCheckout} 
               disabled={cart.length === 0 || isProcessing}
             >
-              {isProcessing ? 'Processing...' : 'Place Order'}
+              {isProcessing ? <Loader size={20} color="border-white dark:border-cacao" /> : <ShoppingCart size={20} />}
+              {isProcessing ? 'PROCESSING...' : `CHARGE ₹${total.toFixed(2)}`}
             </button>
           </div>
         </div>

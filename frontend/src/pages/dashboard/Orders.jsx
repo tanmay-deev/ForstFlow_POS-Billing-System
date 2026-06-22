@@ -45,7 +45,7 @@ const Orders = () => {
       case 'completed': return 'bg-mint/10 text-mint';
       case 'pending': return 'bg-caramel/10 text-caramel';
       case 'cancelled': return 'bg-softRed/10 text-softRed';
-      default: return 'bg-gray-100 text-slateGray';
+      default: return 'bg-gray-100 dark:bg-cacao text-slateGray dark:text-latte';
     }
   };
 
@@ -53,8 +53,8 @@ const Orders = () => {
     { header: 'Order ID', accessor: '_id', render: (row) => <span className="font-mono text-xs">{row.orderNumber || row._id.slice(-8).toUpperCase()}</span> },
     { header: 'Date', accessor: 'createdAt', render: (row) => new Date(row.createdAt).toLocaleString() },
     { header: 'Customer', accessor: 'customerId', render: (row) => row.customerId?.fullName || row.customer?.name || 'Walk-in Customer' },
-    { header: 'Total Amount', accessor: 'totalAmount', render: (row) => <span className="font-bold text-chocolate">₹{row.totalAmount.toFixed(2)}</span> },
-    { header: 'Payment Method', accessor: 'paymentMethod', render: (row) => <span className="capitalize text-slateGray">{row.paymentMethod}</span> },
+    { header: 'Total Amount', accessor: 'totalAmount', render: (row) => <span className="font-bold text-chocolate dark:text-crema">₹{row.totalAmount.toFixed(2)}</span> },
+    { header: 'Payment Method', accessor: 'paymentMethod', render: (row) => <span className="capitalize text-slateGray dark:text-latte">{row.paymentMethod}</span> },
     { header: 'Status', accessor: 'orderStatus', render: (row) => (
       <span className={`px-2 py-1 rounded-full text-xs font-medium capitalize ${getStatusColor(row.orderStatus)}`}>
         {row.orderStatus}
@@ -73,7 +73,7 @@ const Orders = () => {
         )}
         <button 
           onClick={() => setSelectedOrder(row)}
-          className="text-caramel hover:text-chocolate transition-colors p-1"
+          className="text-caramel hover:text-chocolate dark:text-crema transition-colors p-1"
           title="Download Invoice"
         >
           <Download size={18} />
@@ -108,13 +108,13 @@ const Orders = () => {
     <div className="space-y-section animate-fade-in">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-heading font-bold text-chocolate">Order History</h2>
-          <p className="text-slateGray">View and manage customer transactions.</p>
+          <h2 className="text-2xl font-heading font-bold text-chocolate dark:text-crema">Order History</h2>
+          <p className="text-slateGray dark:text-latte">View and manage customer transactions.</p>
         </div>
         <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
           <button 
             onClick={handleClearOrders}
-            className="px-4 py-2 border border-gray-200 text-slateGray rounded-md hover:bg-gray-50 transition-colors text-sm font-medium"
+            className="px-4 py-2 border border-gray-200 dark:border-cacao text-slateGray dark:text-latte rounded-md hover:bg-gray-50 dark:bg-[#2A1F1D] transition-colors text-sm font-medium"
           >
             Clear Orders
           </button>
@@ -125,7 +125,7 @@ const Orders = () => {
               placeholder="Search orders..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-caramel text-sm"
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-cacao rounded-md focus:outline-none focus:ring-2 focus:ring-caramel text-sm"
             />
           </div>
         </div>

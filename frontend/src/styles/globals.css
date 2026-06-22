@@ -6,26 +6,44 @@
 
 @layer base {
   body {
-    @apply font-sans bg-vanilla text-slateGray antialiased;
+    @apply font-sans bg-vanilla text-slateGray antialiased transition-colors duration-300;
     background-image: radial-gradient(at 0% 0%, hsla(28,100%,74%,0.15) 0px, transparent 50%),
                       radial-gradient(at 100% 100%, hsla(355,100%,93%,0.1) 0px, transparent 50%);
     background-attachment: fixed;
   }
   
+  .dark body {
+    @apply bg-espresso text-latte;
+    background-image: radial-gradient(at 0% 0%, hsla(28,100%,74%,0.05) 0px, transparent 50%),
+                      radial-gradient(at 100% 100%, hsla(355,100%,93%,0.05) 0px, transparent 50%);
+  }
+  
   h1 {
     @apply font-heading text-[48px] font-bold text-chocolate;
+  }
+  .dark h1 {
+    @apply text-crema;
   }
   
   h2 {
     @apply font-heading text-[36px] font-semibold text-chocolate tracking-tight;
   }
+  .dark h2 {
+    @apply text-crema;
+  }
   
   h3 {
     @apply font-heading text-[28px] font-semibold text-chocolate tracking-tight;
   }
+  .dark h3 {
+    @apply text-crema;
+  }
   
   h4 {
     @apply font-heading text-[22px] font-medium text-chocolate;
+  }
+  .dark h4 {
+    @apply text-crema;
   }
 
   p {
@@ -46,6 +64,9 @@
   .btn-secondary {
     @apply bg-white/80 backdrop-blur-sm border border-chocolate text-chocolate px-default py-small rounded-md font-medium hover:bg-chocolate hover:text-white transition-all active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
   }
+  .dark .btn-secondary {
+    @apply bg-mocha/80 border-cacao text-crema hover:bg-[#2A1F1D];
+  }
 
   .btn-danger {
     @apply bg-softRed text-white px-default py-small rounded-md font-medium hover:opacity-90 hover:shadow-lg hover:shadow-softRed/50 transition-all active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
@@ -55,13 +76,22 @@
   .card {
     @apply bg-white/80 backdrop-blur-xl border border-white/50 rounded-xl shadow-soft p-section transition-all duration-300;
   }
+  .dark .card {
+    @apply bg-mocha/90 border-cacao/50;
+  }
 
   .input-field {
     @apply w-full bg-white/90 border border-gray-200 rounded-md px-default py-small text-slateGray focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent transition-all hover:bg-white;
   }
+  .dark .input-field {
+    @apply bg-espresso/90 border-cacao text-crema hover:bg-[#2A1F1D] focus:ring-caramel;
+  }
 
   .label {
     @apply block text-sm font-medium text-chocolate mb-tiny;
+  }
+  .dark .label {
+    @apply text-gray-300;
   }
 }
 

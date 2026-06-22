@@ -46,18 +46,18 @@ const CategoryModal = ({ isOpen, onClose, onSuccess }) => {
           placeholder="e.g. Ice Cream Cones"
         />
         <div className="w-full">
-          <label className="block text-sm font-medium text-chocolate mb-tiny">Description</label>
+          <label className="block text-sm font-medium text-chocolate dark:text-crema mb-tiny">Description</label>
           <textarea 
             name="description" 
             value={formData.description} 
             onChange={handleChange}
             rows="3"
-            className="w-full bg-white border border-gray-200 rounded px-default py-small text-slateGray focus:outline-none focus:ring-2 focus:ring-caramel"
+            className="w-full bg-white dark:bg-mocha border border-gray-200 dark:border-cacao rounded px-default py-small text-slateGray dark:text-latte focus:outline-none focus:ring-2 focus:ring-caramel"
             placeholder="Brief description..."
           />
         </div>
 
-        <div className="flex justify-end gap-3 pt-section border-t border-gray-100">
+        <div className="flex justify-end gap-3 pt-section border-t border-gray-100 dark:border-cacao">
           <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>Cancel</Button>
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? 'Saving...' : 'Create Category'}

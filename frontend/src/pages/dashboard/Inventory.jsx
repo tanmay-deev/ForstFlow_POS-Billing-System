@@ -71,8 +71,8 @@ const Inventory = () => {
     <div className="space-y-section animate-fade-in">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-heading font-bold text-chocolate">Inventory Logs</h2>
-          <p className="text-slateGray">Track all stock additions and deductions.</p>
+          <h2 className="text-2xl font-heading font-bold text-chocolate dark:text-crema">Inventory Logs</h2>
+          <p className="text-slateGray dark:text-latte">Track all stock additions and deductions.</p>
         </div>
         <div className="flex flex-wrap gap-3 w-full sm:w-auto">
           <Button variant="outline" className="flex-1 sm:flex-none flex justify-center items-center gap-2" onClick={handleClearLogs}>

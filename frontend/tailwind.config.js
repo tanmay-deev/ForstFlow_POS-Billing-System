@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -14,6 +15,12 @@ export default {
         mint: '#22C55E',
         softRed: '#EF4444',
         slateGray: '#334155',
+        // Premium Dark Mode Palette
+        espresso: '#140F0E',
+        mocha: '#1E1715',
+        crema: '#FDFBF7',
+        latte: '#A89B98',
+        cacao: '#3A2C29'
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],

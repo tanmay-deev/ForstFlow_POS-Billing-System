@@ -52,7 +52,7 @@ const Offers = () => {
   };
 
   const columns = [
-    { header: 'Title', accessor: 'title', render: (row) => <span className="font-semibold text-chocolate">{row.title}</span> },
+    { header: 'Title', accessor: 'title', render: (row) => <span className="font-semibold text-chocolate dark:text-crema">{row.title}</span> },
     { header: 'Offer Code', accessor: 'code', render: (row) => <span className="font-bold text-caramel">{row.code}</span> },
     { header: 'Discount Type', accessor: 'discountType', render: (row) => <span className="capitalize">{row.discountType}</span> },
     { header: 'Value', accessor: 'discountValue', render: (row) => row.discountType === 'percentage' ? `${row.discountValue}%` : `₹${row.discountValue}` },
@@ -73,7 +73,7 @@ const Offers = () => {
         </button>
         <button 
           onClick={() => handleDelete(row._id)}
-          className="text-slateGray hover:text-red-700 p-1 transition-colors"
+          className="text-slateGray dark:text-latte hover:text-red-700 p-1 transition-colors"
           title="Delete Offer"
         >
           <Trash2 size={18} />
@@ -92,8 +92,8 @@ const Offers = () => {
     <div className="space-y-section animate-fade-in">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-heading font-bold text-chocolate">Discount & Offers</h2>
-          <p className="text-slateGray">Create promotional codes and seasonal discounts.</p>
+          <h2 className="text-2xl font-heading font-bold text-chocolate dark:text-crema">Discount & Offers</h2>
+          <p className="text-slateGray dark:text-latte">Create promotional codes and seasonal discounts.</p>
         </div>
         <div className="flex flex-wrap gap-3 items-center w-full sm:w-auto">
           <div className="relative w-full sm:w-64">
@@ -103,7 +103,7 @@ const Offers = () => {
               placeholder="Search offers..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-caramel text-sm"
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-cacao rounded-md focus:outline-none focus:ring-2 focus:ring-caramel text-sm"
             />
           </div>
           <Button className="flex-1 sm:flex-none flex justify-center items-center gap-2 shrink-0" onClick={() => setIsModalOpen(true)}>

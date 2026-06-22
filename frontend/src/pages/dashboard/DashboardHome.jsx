@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../hooks/useAuth.js';
+import { useTheme } from '../../context/ThemeContext.jsx';
 import api from '../../api/axios.js';
 import { ENDPOINTS } from '../../api/endpoints.js';
 import Card from '../../components/common/Card.jsx';
@@ -11,6 +12,7 @@ import {
 
 const DashboardHome = () => {
   const { user } = useAuth();
+  const { theme } = useTheme();
   const [summary, setSummary] = useState(null);
   const [revenueData, setRevenueData] = useState([]);
   const [topProducts, setTopProducts] = useState([]);
@@ -28,9 +30,7 @@ const DashboardHome = () => {
         setSummary(sumRes.data.data);
         
         const formattedRev = revRes.data.data.map(item => {
-          // Parse "YYYY-MM-DD"
           const parts = item._id.split('-');
-          // Month is 0-indexed in JS Date constructor
           const date = new Date(parts[0], parts[1] - 1, parts[2]);
           return {
             name: date.toLocaleDateString('en-US', { weekday: 'short' }),
@@ -52,11 +52,13 @@ const DashboardHome = () => {
 
   if (loading) return <Loader text="Loading dashboard insights..." />;
 
+  const isDark = theme === 'dark';
+
   return (
     <div className="space-y-section animate-fade-in">
       <div>
-        <h2 className="text-3xl font-heading font-bold text-chocolate">Welcome back, {user?.fullName?.split(' ')[0] || 'Admin'}!</h2>
-        <p className="text-slateGray mt-1">Here's what's happening at your parlour today.</p>
+        <h2 className="text-3xl font-heading font-bold text-chocolate dark:text-crema">Welcome back, {user?.fullName?.split(' ')[0] || 'Admin'}!</h2>
+        <p className="text-slateGray dark:text-latte mt-1">Here's what's happening at your parlour today.</p>
       </div>
 
       {/* KPI Cards */}
@@ -66,8 +68,8 @@ const DashboardHome = () => {
             <DollarSign size={24} />
           </div>
           <div>
-            <p className="text-sm text-slateGray font-medium">Today's Revenue</p>
-            <p className="text-2xl font-bold text-chocolate">₹{summary?.todayRevenue?.toFixed(2) || '0.00'}</p>
+            <p className="text-sm text-slateGray dark:text-latte font-medium">Today's Revenue</p>
+            <p className="text-2xl font-bold text-chocolate dark:text-crema">₹{summary?.todayRevenue?.toFixed(2) || '0.00'}</p>
           </div>
         </Card>
         <Card className="flex items-center gap-4">
@@ -75,8 +77,8 @@ const DashboardHome = () => {
             <ShoppingBag size={24} />
           </div>
           <div>
-            <p className="text-sm text-slateGray font-medium">Orders Today</p>
-            <p className="text-2xl font-bold text-chocolate">{summary?.todayOrders || 0}</p>
+            <p className="text-sm text-slateGray dark:text-latte font-medium">Orders Today</p>
+            <p className="text-2xl font-bold text-chocolate dark:text-crema">{summary?.todayOrders || 0}</p>
           </div>
         </Card>
         <Card className="flex items-center gap-4">
@@ -84,8 +86,8 @@ const DashboardHome = () => {
             <PackageX size={24} />
           </div>
           <div>
-            <p className="text-sm text-slateGray font-medium">Low Stock Items</p>
-            <p className="text-2xl font-bold text-chocolate">{summary?.lowStockCount || 0}</p>
+            <p className="text-sm text-slateGray dark:text-latte font-medium">Low Stock Items</p>
+            <p className="text-2xl font-bold text-chocolate dark:text-crema">{summary?.lowStockCount || 0}</p>
           </div>
         </Card>
         <Card className="flex items-center gap-4">
@@ -93,8 +95,8 @@ const DashboardHome = () => {
             <Users size={24} />
           </div>
           <div>
-            <p className="text-sm text-slateGray font-medium">Total Customers</p>
-            <p className="text-2xl font-bold text-chocolate">{summary?.totalCustomers || 0}</p>
+            <p className="text-sm text-slateGray dark:text-latte font-medium">Total Customers</p>
+            <p className="text-2xl font-bold text-chocolate dark:text-crema">{summary?.totalCustomers || 0}</p>
           </div>
         </Card>
       </div>
@@ -102,7 +104,7 @@ const DashboardHome = () => {
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-section">
         <Card className="lg:col-span-2">
-          <h3 className="text-lg font-bold text-chocolate mb-section">Revenue Overview (7 Days)</h3>
+          <h3 className="text-lg font-bold text-chocolate dark:text-crema mb-section">Revenue Overview (7 Days)</h3>
           <div className="h-[300px] w-full">
             {revenueData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
@@ -113,19 +115,20 @@ const DashboardHome = () => {
                       <stop offset="95%" stopColor="#FB923C" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} dy={10} />
-                  <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} tickFormatter={(value) => `₹${value}`} />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDark ? '#3A2C29' : '#f0f0f0'} />
+                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: isDark ? '#A89B98' : '#64748b', fontSize: 12}} dy={10} />
+                  <YAxis axisLine={false} tickLine={false} tick={{fill: isDark ? '#A89B98' : '#64748b', fontSize: 12}} tickFormatter={(value) => `₹${value}`} />
                   <Tooltip 
-                    contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}
-                    itemStyle={{ color: '#4B2E2E', fontWeight: 'bold' }}
+                    contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', backgroundColor: isDark ? '#1E1715' : '#fff' }}
+                    itemStyle={{ color: isDark ? '#FDFBF7' : '#4B2E2E', fontWeight: 'bold' }}
+                    labelStyle={{ color: isDark ? '#A89B98' : '#64748b' }}
                     formatter={(value) => [`₹${value.toFixed(2)}`, 'Revenue']}
                   />
                   <Area type="monotone" dataKey="total" stroke="#FB923C" strokeWidth={3} fillOpacity={1} fill="url(#colorTotal)" />
                 </AreaChart>
               </ResponsiveContainer>
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-slateGray">
+              <div className="w-full h-full flex items-center justify-center text-slateGray dark:text-latte">
                 No revenue data available for the last 7 days.
               </div>
             )}
@@ -133,19 +136,19 @@ const DashboardHome = () => {
         </Card>
         
         <Card>
-          <h3 className="text-lg font-bold text-chocolate mb-section">Top Selling Products</h3>
+          <h3 className="text-lg font-bold text-chocolate dark:text-crema mb-section">Top Selling Products</h3>
           <div className="h-[300px] w-full flex flex-col justify-center">
              <div className="space-y-4">
                 {topProducts.length === 0 ? (
-                  <p className="text-slateGray text-center">No sales data yet.</p>
+                  <p className="text-slateGray dark:text-latte text-center">No sales data yet.</p>
                 ) : (
                   topProducts.map((p, i) => (
                     <div key={p._id} className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-vanilla rounded flex items-center justify-center font-bold text-chocolate">#{i+1}</div>
+                        <div className="w-10 h-10 bg-vanilla dark:bg-espresso rounded flex items-center justify-center font-bold text-chocolate dark:text-crema">#{i+1}</div>
                         <div>
-                          <p className="font-medium text-chocolate truncate max-w-[120px]" title={p.name}>{p.name}</p>
-                          <p className="text-xs text-slateGray">{p.totalSold} sales</p>
+                          <p className="font-medium text-chocolate dark:text-crema truncate max-w-[120px]" title={p.name}>{p.name}</p>
+                          <p className="text-xs text-slateGray dark:text-latte">{p.totalSold} sales</p>
                         </div>
                       </div>
                       <span className="font-bold text-caramel">₹{p.revenue?.toFixed(2)}</span>

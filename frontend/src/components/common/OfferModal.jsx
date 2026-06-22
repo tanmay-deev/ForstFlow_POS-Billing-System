@@ -64,12 +64,12 @@ const OfferModal = ({ isOpen, onClose, onSuccess }) => {
           className="uppercase"
         />
         <div className="w-full">
-          <label className="block text-sm font-medium text-chocolate mb-tiny">Discount Type</label>
+          <label className="block text-sm font-medium text-chocolate dark:text-crema mb-tiny">Discount Type</label>
           <select 
             name="discountType" 
             value={formData.discountType} 
             onChange={handleChange} 
-            className="w-full bg-white border border-gray-200 rounded px-default py-small text-slateGray focus:outline-none focus:ring-2 focus:ring-caramel"
+            className="w-full bg-white dark:bg-mocha border border-gray-200 dark:border-cacao rounded px-default py-small text-slateGray dark:text-latte focus:outline-none focus:ring-2 focus:ring-caramel"
           >
             <option value="percentage">Percentage (%)</option>
             <option value="fixed">Fixed Amount ($)</option>
@@ -103,7 +103,7 @@ const OfferModal = ({ isOpen, onClose, onSuccess }) => {
           />
         </div>
 
-        <div className="flex justify-end gap-3 pt-section border-t border-gray-100">
+        <div className="flex justify-end gap-3 pt-section border-t border-gray-100 dark:border-cacao">
           <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>Cancel</Button>
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? 'Saving...' : 'Create Offer'}

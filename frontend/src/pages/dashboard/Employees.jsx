@@ -42,10 +42,10 @@ const Employees = () => {
   };
 
   const columns = [
-    { header: 'Name', accessor: 'fullName', render: (row) => <span className="font-semibold text-chocolate">{row.fullName}</span> },
+    { header: 'Name', accessor: 'fullName', render: (row) => <span className="font-semibold text-chocolate dark:text-crema">{row.fullName}</span> },
     { header: 'Email', accessor: 'email' },
     { header: 'Role', accessor: 'role', render: (row) => (
-      <span className="capitalize px-2 py-1 rounded-full text-xs font-medium bg-vanilla text-chocolate border border-caramel/20">
+      <span className="capitalize px-2 py-1 rounded-full text-xs font-medium bg-vanilla dark:bg-espresso text-chocolate dark:text-crema border border-caramel/20">
         {row.role}
       </span>
     )},
@@ -62,7 +62,7 @@ const Employees = () => {
             setEditingEmployee(row);
             setIsModalOpen(true);
           }}
-          className="text-caramel hover:text-chocolate p-1 transition-colors"
+          className="text-caramel hover:text-chocolate dark:text-crema p-1 transition-colors"
           title="Edit Employee"
         >
           <Edit size={18} />
@@ -88,8 +88,8 @@ const Employees = () => {
     <div className="space-y-section animate-fade-in">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-heading font-bold text-chocolate">Staff Management</h2>
-          <p className="text-slateGray">Manage employees and their system access roles.</p>
+          <h2 className="text-2xl font-heading font-bold text-chocolate dark:text-crema">Staff Management</h2>
+          <p className="text-slateGray dark:text-latte">Manage employees and their system access roles.</p>
         </div>
         <div className="flex flex-wrap gap-3 items-center w-full sm:w-auto">
           <div className="relative w-full sm:w-64">
@@ -99,7 +99,7 @@ const Employees = () => {
               placeholder="Search employees..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-caramel text-sm"
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-cacao rounded-md focus:outline-none focus:ring-2 focus:ring-caramel text-sm"
             />
           </div>
           <Button className="flex-1 sm:flex-none flex justify-center items-center gap-2 shrink-0" onClick={() => {

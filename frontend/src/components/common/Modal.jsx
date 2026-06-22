@@ -31,11 +31,11 @@ const Modal = ({ isOpen, onClose, title, children, maxWidth = 'max-w-md' }) => {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className={`relative w-full ${maxWidth} bg-white/95 backdrop-blur-2xl border border-white/50 rounded-2xl shadow-strong overflow-hidden flex flex-col max-h-[90vh]`}
+            className={`relative w-full ${maxWidth} bg-white/95 dark:bg-mocha/95 backdrop-blur-2xl border border-white dark:border-cacao/50 rounded-2xl shadow-strong overflow-hidden flex flex-col max-h-[90vh]`}
           >
-            <div className="p-section border-b border-gray-100 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-chocolate">{title}</h3>
-              <button type="button" onClick={onClose} className="text-slateGray hover:text-softRed transition-colors">
+            <div className="p-section border-b border-gray-100 dark:border-cacao flex items-center justify-between">
+              <h3 className="text-xl font-bold text-chocolate dark:text-crema">{title}</h3>
+              <button type="button" onClick={onClose} className="text-slateGray dark:text-latte hover:text-softRed transition-colors">
                 <X size={24} />
               </button>
             </div>
