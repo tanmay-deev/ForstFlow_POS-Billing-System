@@ -53,6 +53,32 @@
   small {
     @apply text-[14px];
   }
+
+  /* Modern Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100 rounded-full;
+  }
+  .dark ::-webkit-scrollbar-track {
+    @apply bg-[#2A1F1D] rounded-full;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-chocolate/40 rounded-full hover:bg-chocolate/60;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    @apply bg-cacao rounded-full hover:bg-caramel/60;
+  }
+  
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #4B2E2E66 #F3F4F6;
+  }
+  .dark * {
+    scrollbar-color: #3A2C29 #2A1F1D;
+  }
 }
 
 @layer components {

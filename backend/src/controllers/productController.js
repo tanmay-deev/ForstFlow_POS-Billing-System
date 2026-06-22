@@ -2,7 +2,7 @@ import asyncHandler from 'express-async-handler';
 import Product from '../models/Product.js';
 
 export const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = Number(req.query.limit) || 10;
+  const pageSize = Number(req.query.limit) || 1000;
   const page = Number(req.query.page) || 1;
 
   const keyword = req.query.search
