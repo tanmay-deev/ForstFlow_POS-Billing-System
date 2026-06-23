@@ -175,7 +175,7 @@ const DashboardLayout = () => {
       <div className="flex-1 flex flex-col min-w-0">
         
         {/* Top Navbar */}
-        <header className="bg-white/60 dark:bg-espresso/60 backdrop-blur-md shadow-sm border-b border-white dark:border-cacao/50 dark:border-cacao h-16 flex items-center justify-between px-section z-10 relative">
+        <header className="bg-white/60 dark:bg-espresso/60 backdrop-blur-md shadow-sm border-b border-white dark:border-cacao/50 dark:border-cacao h-16 flex items-center justify-between px-section z-40 relative">
           
           <div className="flex items-center gap-4">
             <button className="md:hidden text-slateGray dark:text-latte hover:text-chocolate dark:text-crema dark:hover:text-white transition-colors" onClick={() => setMobileMenuOpen(true)}>
@@ -267,7 +267,7 @@ const DashboardLayout = () => {
 
               {/* Notification Dropdown */}
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-mocha rounded-xl shadow-strong border border-gray-100 dark:border-cacao overflow-hidden z-50 animate-scale-in origin-top-right">
+                <div className="absolute right-[-60px] sm:right-0 mt-2 w-[300px] sm:w-80 max-w-[calc(100vw-32px)] bg-white dark:bg-mocha rounded-xl shadow-strong border border-gray-100 dark:border-cacao overflow-hidden z-50 animate-scale-in origin-top-right">
                   <div className="p-4 border-b border-gray-100 dark:border-cacao flex justify-between items-center bg-gray-50/50 dark:bg-mocha/50">
                     <h3 className="font-bold text-chocolate dark:text-crema">Notifications</h3>
                     {unreadCount > 0 && (

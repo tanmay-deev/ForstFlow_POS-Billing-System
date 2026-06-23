@@ -5,7 +5,7 @@ import Input from '../../components/common/Input.jsx';
 import Loader, { EmptyState } from '../../components/common/Loader.jsx';
 import api from '../../api/axios.js';
 import { ENDPOINTS } from '../../api/endpoints.js';
-import { Search, ShoppingCart, Trash2, Plus, Minus, CreditCard, Banknote, Smartphone, PackageX, Tag, UserPlus, User } from 'lucide-react';
+import { Search, ShoppingCart, Trash2, Plus, Minus, CreditCard, Banknote, Smartphone, PackageX, Tag, UserPlus, User, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import CustomerModal from '../../components/common/CustomerModal.jsx';
 import { useSettings } from '../../context/SettingsContext.jsx';
@@ -411,7 +411,7 @@ const POS = () => {
               onClick={handleCheckout} 
               disabled={cart.length === 0 || isProcessing}
             >
-              {isProcessing ? <Loader size={20} color="border-white dark:border-cacao" /> : <ShoppingCart size={20} />}
+              {isProcessing ? <Loader2 size={20} className="animate-spin" /> : <ShoppingCart size={20} />}
               {isProcessing ? 'PROCESSING...' : `CHARGE ₹${total.toFixed(2)}`}
             </button>
           </div>
