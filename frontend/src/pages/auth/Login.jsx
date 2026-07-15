@@ -34,6 +34,13 @@ const Login = () => {
       <div className="mb-8">
         <h1 className="text-4xl font-heading font-bold text-chocolate dark:text-crema mb-2 tracking-tight">Welcome back</h1>
         <p className="text-slateGray dark:text-latte text-base">Enter your credentials to access your dashboard.</p>
+        <button 
+          type="button"
+          onClick={() => { setEmail('admin@example.com'); setPassword('123456'); }}
+          className="mt-4 px-4 py-2 bg-caramel/10 text-caramel dark:bg-caramel/20 dark:text-orange-300 font-semibold text-sm rounded-lg hover:bg-caramel/20 dark:hover:bg-caramel/30 transition-colors inline-flex items-center"
+        >
+          Auto-fill Admin Credentials
+        </button>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
